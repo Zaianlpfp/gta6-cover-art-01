@@ -1,23 +1,135 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Cover Snap</title>
-<link rel="stylesheet" href="./style.css">
+<title>VICE COVER — GTA-style Cover Art Maker</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-<main class="app">
-  <section class="controls">
-    <h1>Cover Snap</h1>
-    <p>A photo and a caption, made into a square cover.</p>
-    <label>Photo <input id="photo" type="file" accept="image/*"></label>
-    <label>Caption <input id="caption" type="text" maxlength="40" value="Sunset Heist"></label>
-    <button id="export" type="button">Export PNG 1080 x 1080</button>
-    <p id="status" role="status"></p>
+<header class="topbar">
+  <div class="brand">
+    <span class="brand-mark">VC</span>
+    <span class="brand-name">VICE&nbsp;COVER</span>
+    <span class="brand-sub">make your own sunset-poster cover art</span>
+  </div>
+  <div class="top-actions">
+    <button id="btnSample" class="btn btn-ghost" type="button">Try a sample photo</button>
+    <button id="btnReset" class="btn btn-ghost" type="button">Reset</button>
+    <button id="btnExport" class="btn btn-primary" type="button">Export PNG</button>
+  </div>
+</header>
+
+<main class="workspace">
+  <section class="stage-col">
+    <div class="stage-wrap">
+      <canvas id="coverCanvas" width="1920" height="1080" aria-label="Cover art live preview"></canvas>
+      <p class="stage-hint" id="stageHint">Drag on a panel to move its photo &middot; scroll on a panel to zoom &middot; click a panel to select it</p>
+    </div>
+    <div class="size-row" role="group" aria-label="Export size">
+      <span class="row-label">Export size</span>
+      <button class="chip size-chip" data-size="1920x1080" type="button">1920 &times; 1080</button>
+      <button class="chip size-chip" data-size="1080x1080" type="button">1080 &times; 1080</button>
+      <button class="chip size-chip" data-size="1080x1350" type="button">1080 &times; 1350</button>
+      <span class="size-note" id="sizeNote">Landscape &middot; story-ready</span>
+    </div>
   </section>
-  <canvas id="cover" width="1080" height="1080" aria-label="The cover"></canvas>
+
+  <aside class="panel-col" aria-label="Editor controls">
+    <section class="card" id="layoutCard">
+      <h2>1 &middot; Layout</h2>
+      <div class="layout-grid" id="layoutGrid"></div>
+    </section>
+
+    <section class="card" id="gradeCard">
+      <h2>2 &middot; Colour grade</h2>
+      <div class="chip-row" id="gradeRow"></div>
+      <label class="slider-label">Grade strength <output id="gradeStrengthOut">70%</output>
+        <input id="gradeStrength" type="range" min="0" max="100" value="70">
+      </label>
+    </section>
+
+    <section class="card" id="photoCard">
+      <h2>3 &middot; Photos</h2>
+      <p class="card-note">Your photos never leave this machine. Add one photo and fill every panel, or a different photo per panel.</p>
+      <div class="upload-row">
+        <label class="btn btn-ghost file-btn">Add photos&hellip;
+          <input id="fileInput" type="file" accept="image/*" multiple hidden>
+        </label>
+        <button id="btnSample2" class="btn btn-ghost" type="button">Load 3 sample photos</button>
+      </div>
+      <div class="thumb-strip" id="thumbStrip"></div>
+      <div class="panel-tools" id="panelTools">
+        <p class="panel-tools-title">Selected panel: <strong id="selPanelName">Panel 1</strong></p>
+        <label class="field">Photo
+          <select id="panelPhoto"></select>
+        </label>
+        <label class="slider-label">Zoom <output id="zoomOut">100%</output>
+          <input id="panelZoom" type="range" min="100" max="300" value="100">
+        </label>
+        <label class="slider-label">Pan X <output id="panXOut">0</output>
+          <input id="panelPanX" type="range" min="-100" max="100" value="0">
+        </label>
+        <label class="slider-label">Pan Y <output id="panYOut">0</output>
+          <input id="panelPanY" type="range" min="-100" max="100" value="0">
+        </label>
+        <label class="field">Panel filter
+          <select id="panelFilter">
+            <option value="none">None</option>
+            <option value="warm">Warm gold</option>
+            <option value="cool">Cool neon</option>
+            <option value="mono">High-contrast mono</option>
+          </select>
+        </label>
+        <label class="field">Fill all panels with this photo
+          <button id="btnFillAll" class="btn btn-ghost" type="button">Fill all panels</button>
+        </label>
+      </div>
+    </section>
+
+    <section class="card" id="captionCard">
+      <h2>4 &middot; Caption</h2>
+      <label class="field">Main title
+        <input id="titleText" type="text" value="VICE CITY" maxlength="30" spellcheck="false">
+      </label>
+      <label class="field">Subtitle
+        <input id="subText" type="text" value="one summer. no rules." maxlength="60" spellcheck="false">
+      </label>
+      <label class="slider-label">Title size <output id="titleSizeOut">100%</output>
+        <input id="titleSize" type="range" min="50" max="160" value="100">
+      </label>
+      <label class="slider-label">Letter spacing <output id="letterSpacingOut">6 px</output>
+        <input id="letterSpacing" type="range" min="0" max="24" value="6">
+      </label>
+      <div class="field-row">
+        <label class="field">Title colour
+          <input id="titleColor" type="color" value="#ffd166">
+        </label>
+        <label class="field">Outline
+          <select id="titleOutline">
+            <option value="black">Black outline</option>
+            <option value="white">White outline</option>
+            <option value="none">No outline</option>
+          </select>
+        </label>
+        <label class="field">Title position
+          <select id="titlePos">
+            <option value="bottom">Bottom</option>
+            <option value="top">Top</option>
+          </select>
+        </label>
+      </div>
+    </section>
+
+    <section class="card" id="finishCard">
+      <h2>5 &middot; Export</h2>
+      <p class="card-note">One click, one PNG. Pick a size above, then export. The file downloads straight from your browser.</p>
+      <button id="btnExport2" class="btn btn-primary btn-wide" type="button">Export PNG</button>
+      <p class="fineprint">Original design. No game logos, artwork or fonts. Photos stay on your device.</p>
+    </section>
+  </aside>
 </main>
-<script type="module" src="./src/main.js"></script>
+
+<script type="module" src="app.js"></script>
 </body>
 </html>

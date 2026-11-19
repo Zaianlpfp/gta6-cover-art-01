@@ -1,0 +1,25 @@
+FONTS — SIL Open Font License (OFL) 1.1
+==========================================
+
+This app ships two display fonts, both licensed under the SIL Open Font
+License 1.1, which allows them to be bundled and redistributed with this
+app. No game font, logo or artwork is used anywhere in this project.
+
+1. Bebas Neue — Regular
+   - File: BebasNeue-Regular.ttf
+   - Authors: The Bebas Neue Project Authors (Dharma Type)
+   - Licence: SIL Open Font License 1.1
+   - Source: https://github.com/google/fonts/tree/main/ofl/bebasneue
+   - Use: the big condensed main-title lettering on the cover.
+
+2. Anton — Regular
+   - File: Anton-Regular.ttf
+   - Authors: The Anton Project Authors
+   - Licence: SIL Open Font License 1.1
+   - Source: https://github.com/google/fonts/tree/main/ofl/anton
+   - Use: subtitles and editor headings.
+
+The full text of the SIL Open Font License 1.1 is available at
+https://openfontlicense.org/ and inside each font file's own licence
+metadata. Both fonts were downloaded as binary files from the Google Fonts
+repository listed above.
