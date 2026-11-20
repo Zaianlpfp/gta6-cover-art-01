@@ -170,7 +170,9 @@ body {
 }
 .chip-row { display: flex; gap: 8px; flex-wrap: wrap; }
 
-.layout-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.layout-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.check { display: flex; gap: 8px; align-items: center; font-size: 12.5px; color: var(--muted); margin: 10px 0 4px; cursor: pointer; }
+.check input { accent-color: var(--pink); width: 15px; height: 15px; flex: none; }
 .layout-btn {
   appearance: none;
   border: 1px solid var(--line);

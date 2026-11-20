@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>VICE COVER — GTA-style Cover Art Maker</title>
+<title>VICE COVER v3 — GTA-style Cover Art Maker</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -39,6 +39,7 @@
     <section class="card" id="layoutCard">
       <h2>1 &middot; Layout</h2>
       <div class="layout-grid" id="layoutGrid"></div>
+      <label class="check"><input id="slantCheck" type="checkbox"> Slanted panel cuts (diagonal edges)</label>
     </section>
 
     <section class="card" id="gradeCard">
@@ -87,42 +88,88 @@
       </div>
     </section>
 
-    <section class="card" id="captionCard">
-      <h2>4 &middot; Caption</h2>
+    <section class="card" id="titleCard">
+      <h2>4 &middot; Chrome title</h2>
       <label class="field">Main title
-        <input id="titleText" type="text" value="VICE CITY" maxlength="30" spellcheck="false">
+        <input id="titleText" type="text" value="VICE HEAT" maxlength="30" spellcheck="false">
       </label>
-      <label class="field">Subtitle
-        <input id="subText" type="text" value="one summer. no rules." maxlength="60" spellcheck="false">
-      </label>
-      <label class="slider-label">Title size <output id="titleSizeOut">100%</output>
-        <input id="titleSize" type="range" min="50" max="160" value="100">
-      </label>
-      <label class="slider-label">Letter spacing <output id="letterSpacingOut">6 px</output>
-        <input id="letterSpacing" type="range" min="0" max="24" value="6">
+      <label class="field">Subtitle (neon script)
+        <input id="subText" type="text" value="one last drive down the coast" maxlength="60" spellcheck="false">
       </label>
       <div class="field-row">
-        <label class="field">Title colour
-          <input id="titleColor" type="color" value="#ffd166">
-        </label>
-        <label class="field">Outline
-          <select id="titleOutline">
-            <option value="black">Black outline</option>
-            <option value="white">White outline</option>
-            <option value="none">No outline</option>
+        <label class="field">Chrome style
+          <select id="chromeStyle">
+            <option value="sunset">Sunset chrome</option>
+            <option value="gold">Gold chrome</option>
+            <option value="pink">Pink chrome</option>
+            <option value="mint">Mint chrome</option>
           </select>
         </label>
         <label class="field">Title position
           <select id="titlePos">
             <option value="bottom">Bottom</option>
             <option value="top">Top</option>
+            <option value="center">Centre</option>
           </select>
         </label>
       </div>
+      <label class="slider-label">Title size <output id="titleSizeOut">100%</output>
+        <input id="titleSize" type="range" min="50" max="160" value="100">
+      </label>
+      <label class="slider-label">Letter spacing <output id="letterSpacingOut">6 px</output>
+        <input id="letterSpacing" type="range" min="0" max="24" value="6">
+      </label>
+    </section>
+
+    <section class="card" id="roleCard">
+      <h2>5 &middot; Role tags &amp; places</h2>
+      <label class="check"><input id="roleTagsChk" type="checkbox" checked> Show role tags on panels</label>
+      <label class="field">Role tag — selected panel
+        <input id="roleTagText" type="text" value="THE DRIVER" maxlength="24" spellcheck="false">
+      </label>
+      <p class="card-note">Location captions appear on the small panels of the <strong>Location Grid</strong> layout (place &middot; time &middot; note).</p>
+      <div class="field-row">
+        <label class="field">Place
+          <input id="locPlace" type="text" value="CORAL BAY MARINA" maxlength="30" spellcheck="false">
+        </label>
+        <label class="field">Time
+          <input id="locTime" type="text" value="6:55 PM" maxlength="12" spellcheck="false">
+        </label>
+      </div>
+      <label class="field">Note
+        <input id="locNote" type="text" value="LAST LIGHT" maxlength="24" spellcheck="false">
+      </label>
+    </section>
+
+    <section class="card" id="furnCard">
+      <h2>6 &middot; Poster furniture</h2>
+      <p class="card-note">Theatre-poster furniture, drawn on the cover itself. Untick any piece to hide it.</p>
+      <label class="check"><input id="furnQuoteChk" type="checkbox" checked> Five-star quote bar (top)</label>
+      <label class="field">Quote
+        <input id="furnQuote" type="text" value="EVERY FRAME FEELS LIKE THE LAST DAY OF SUMMER" maxlength="90" spellcheck="false">
+      </label>
+      <label class="field">Quote source
+        <input id="furnSource" type="text" value="THE COASTLINE REVIEW" maxlength="40" spellcheck="false">
+      </label>
+      <label class="check"><input id="furnVolChk" type="checkbox" checked> VOL badge</label>
+      <label class="field">Volume
+        <input id="furnVol" type="text" value="VOL. 01" maxlength="16" spellcheck="false">
+      </label>
+      <label class="check"><input id="furnTaglineChk" type="checkbox" checked> Tagline strip</label>
+      <label class="field">Tagline
+        <input id="furnTagline" type="text" value="THREE CARS · ONE SUNSET · NO TURNING BACK" maxlength="80" spellcheck="false">
+      </label>
+      <label class="check"><input id="furnBillingChk" type="checkbox" checked> Billing block</label>
+      <label class="field">Billing
+        <input id="furnBilling" type="text" value="A GOLDEN HOUR PICTURES PRODUCTION · STARRING YOUR CREW · SHOT ON YOUR OWN PHONE · GRADED BY HAND" maxlength="140" spellcheck="false">
+      </label>
+      <label class="check"><input id="furnSealChk" type="checkbox" checked> “Original Cover Art” seal</label>
+      <label class="check"><input id="furnBarcodeChk" type="checkbox" checked> Barcode</label>
+      <label class="check"><input id="furnSoonChk" type="checkbox" checked> COMING SOON pill</label>
     </section>
 
     <section class="card" id="finishCard">
-      <h2>5 &middot; Export</h2>
+      <h2>7 &middot; Export</h2>
       <p class="card-note">One click, one PNG. Pick a size above, then export. The file downloads straight from your browser.</p>
       <button id="btnExport2" class="btn btn-primary btn-wide" type="button">Export PNG</button>
       <p class="fineprint">Original design. No game logos, artwork or fonts. Photos stay on your device.</p>
